@@ -1,0 +1,69 @@
+plugins {
+    id 'java-library'
+    id 'io.spring.dependency-management'
+    id 'maven-publish'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.7"
+    }
+}
+
+dependencies {
+    // Spring Security (버전은 Spring Boot BOM에서 관리)
+    api 'org.springframework.security:spring-security-config'
+    api 'org.springframework.security:spring-security-web'
+
+    // Spring Boot AutoConfiguration 지원
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // JWT
+    api 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    api 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+    // Servlet API
+    compileOnly 'jakarta.servlet:jakarta.servlet-api'
+    testImplementation 'jakarta.servlet:jakarta.servlet-api'
+
+    // Logging
+    api 'org.slf4j:slf4j-api'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Test dependencies
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = 'validator'
+            version = project.version
+
+            from components.java
+
+            pom {
+                name = 'JWT Validator Library'
+                description = 'JWT validation library for microservices'
+                url = 'https://github.com/hanju-darby/hanju-auth'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+            }
+        }
+    }
+}

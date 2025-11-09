@@ -1,0 +1,84 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Gradle
+.gradle
+build
+!build/libs/*.jar
+gradle-app.setting
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
+
+# IDE files
+.idea
+*.iml
+*.iws
+*.ipr
+.vscode
+.settings
+.classpath
+.project
+.factorypath
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Claude Code settings
+../.claude/
+
+# Documentation
+*.md
+docs/
+LICENSE
+CHANGELOG*
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# Test files
+src/test/
+**/test/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Environment files
+.env
+.env.*
+application-*.local.yml
+application-*.local.properties
+
+# Database files (development)
+*.db
+*.sqlite
+*.h2.db
+*.trace.db
+*.lock.db
+
+# Build artifacts (except final jar)
+out/
+target/
+bin/
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml

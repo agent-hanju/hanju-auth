@@ -1,0 +1,82 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: auth-server
+  datasource:
+    url: ${DB_URL:jdbc:h2:mem:authdb}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        '[show_sql]': false
+        '[format_sql]': false
+        '[default_batch_fetch_size]': 16
+    open-in-view: false
+  data:
+    jpa:
+      repositories:
+        enabled: true
+
+# JWT Validator 설정
+hanju:
+  jwt:
+    validator:
+      enabled: true
+      secret-key: ${JWT_SECRET_KEY:NTExMzI3YzlkNDFhMmE5YmM0MGNkNmZkMjk1Nzc4ZjZjMmI0Njk3YjhkMTc2ZTQwZWY0OTZiYjgzZjVhNjgzM2NhOTczMTRjN2I1NGMzZjY1YTk0MTczMzA5MTBmMDM0ZjBmOTA5NmIzMThkNDQ3NjMwMTNmOTU5Njc1N2NjOWUNCg==}
+      issuer: hanju-auth
+      access-token-expire-minutes: 1440
+      refresh-token-multiplier: 10
+      permit-all-patterns:
+        - /
+        - /error
+        - /h2-console/**
+        - /actuator/health
+        - /api/auth/login
+        - /api/auth/register
+        - /api/auth/refresh
+        - /swagger-ui/**
+        - /v3/api-docs/**
+        - /docs/**
+      authenticated-patterns:
+        - /api/**
+      skip-filter-patterns:
+        - /h2-console
+        - /actuator
+        - /swagger-ui
+        - /v3/api-docs
+        - /api/auth/login
+        - /api/auth/register
+
+  # Authenticator 설정
+  authenticator:
+    enabled: true
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+# Logging
+logging:
+  level:
+    authenticator: DEBUG
+    validator: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'

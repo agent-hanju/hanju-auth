@@ -1,0 +1,76 @@
+name: auth-library
+
+services:
+  # MariaDB Database
+  mariadb:
+    image: mariadb:10.11
+    container_name: auth-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${DB_NAME:-auth_db}
+      MYSQL_USER: ${DB_USERNAME:-auth_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-auth_password}
+      TZ: Asia/Seoul
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - auth-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
+  # Authenticator Application
+  authenticator:
+    build:
+      context: ..
+      dockerfile: authenticator/Dockerfile
+    container_name: auth-server
+    restart: unless-stopped
+    environment:
+      # Database configuration
+      DB_URL: jdbc:mariadb://mariadb:3306/${DB_NAME:-auth_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      DB_USERNAME: ${DB_USERNAME:-auth_user}
+      DB_PASSWORD: ${DB_PASSWORD:-auth_password}
+      DB_DRIVER: org.mariadb.jdbc.Driver
+
+      # JWT configuration
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-}
+
+      # Spring Boot configuration
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+
+      # JVM options
+      JAVA_OPTS: >
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=75.0
+        -XX:InitialRAMPercentage=50.0
+        -Djava.security.egd=file:/dev/./urandom
+    ports:
+      - "${APP_PORT:-8090}:8090"
+    networks:
+      - auth-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  auth-network:
+    driver: bridge

@@ -1,0 +1,85 @@
+# Production Profile Configuration
+# 운영 환경 전용 설정 - application.yml의 개발 설정을 오버라이드
+
+spring:
+  # 운영 환경: MariaDB 필수 (기본값 없음 - 환경변수 필수)
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER:org.mariadb.jdbc.Driver}
+
+  # H2 Console 비활성화
+  h2:
+    console:
+      enabled: false
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: validate # 운영: 스키마 자동 변경 금지
+    properties:
+      hibernate:
+        '[show_sql]': false
+        '[format_sql]': false
+
+# JWT Secret 환경변수 필수 (기본값 제거)
+hanju:
+  jwt:
+    validator:
+      secret-key: ${JWT_SECRET_KEY}
+      # 운영 환경: Swagger, H2 Console 경로 제거
+      permit-all-patterns:
+        - /
+        - /error
+        - /actuator/health # health check만 허용
+        - /api/auth/login
+        - /api/auth/register
+        - /api/auth/refresh
+      authenticated-patterns:
+        - /api/**
+        - /actuator/** # actuator는 인증 필요
+      skip-filter-patterns:
+        - /api/auth/login
+        - /api/auth/register
+
+# Swagger 비활성화 (운영 환경)
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+# Spring Boot Actuator 보안 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics # 필수 엔드포인트만 노출
+        exclude: heapdump,threaddump,env,configprops # 민감한 정보 제외
+  endpoint:
+    health:
+      show-details: when-authorized # 인증된 사용자만 상세 정보 확인 가능
+  server:
+    port: ${MANAGEMENT_PORT:8091} # 관리 포트 분리 권장
+
+# 운영 환경 로깅
+logging:
+  level:
+    me:
+      hanju:
+        auth:
+          authenticator: INFO
+          validator: INFO
+    org:
+      springframework:
+        security: WARN
+      hibernate:
+        SQL: WARN
+  file:
+    name: /var/log/authenticator/application.log
+    max-size: 100MB
+    max-history: 30
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'

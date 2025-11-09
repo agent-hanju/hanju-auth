@@ -1,0 +1,4 @@
+rootProject.name = 'hanju-auth'
+
+include 'validator'
+include 'authenticator'

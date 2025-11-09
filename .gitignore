@@ -1,0 +1,149 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Gradle files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Application specific
+application-local.yml
+application-local.properties
+
+# Claude Code settings
+.claude/settings.local.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# H2 database files
+*.h2.db
+*.trace.db
+*.lock.db
+
+# Maven local repository (if using Maven)
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Logs directory
+logs/
+*.log.*
+
+# Test reports (should not be committed)
+**/build/reports/
+**/build/test-results/
+
+# Test coverage reports
+.jacoco/
+jacoco.exec
+**/build/jacoco/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# Spring Boot
+spring-boot-devtools.properties
+
+# Node modules (if any frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Security files (never commit)
+*.pem
+*.key
+*.p12
+*.jks
+keystore.*
+truststore.*
+
+# JWT secrets (never commit)
+jwt-secret.txt
+secret-key.txt
+application-secret.yml
+application-secret.properties
+
+# IDE-specific
+*.sublime-project
+*.sublime-workspace
+
+# Generated documentation
+docs/generated/

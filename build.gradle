@@ -5,8 +5,8 @@ plugins {
 }
 
 allprojects {
-    group = 'com.github.hanju-darby'
-    version = '1.0.0'
+    group = 'com.github.agent-hanju.hanju-auth'
+    version = 'v0.1.0'
 }
 
 subprojects {

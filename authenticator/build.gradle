@@ -25,6 +25,9 @@ dependencies {
     // Nano ID
     implementation 'com.aventrix.jnanoid:jnanoid:2.0.0'
 
+    // Configuration Properties 지원
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -32,6 +35,8 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 bootJar {

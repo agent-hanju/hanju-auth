@@ -1,4 +1,4 @@
-name: auth-library
+name: hanju-auth
 
 services:
   # MariaDB Database

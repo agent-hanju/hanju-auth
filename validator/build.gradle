@@ -30,10 +30,14 @@ dependencies {
     // Logging
     api 'org.slf4j:slf4j-api'
 
+    // Configuration Properties 지원 (JwtValidatorProperties)
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
@@ -53,15 +57,28 @@ publishing {
             from components.java
 
             pom {
-                name = 'JWT Validator Library'
-                description = 'JWT validation library for microservices'
-                url = 'https://github.com/hanju-darby/hanju-auth'
+                name = 'Hanju JWT Validator'
+                description = 'JWT validation library for Spring Boot microservices'
+                url = 'https://github.com/agent-hanju/hanju-auth'
 
                 licenses {
                     license {
                         name = 'MIT License'
                         url = 'https://opensource.org/licenses/MIT'
                     }
+                }
+
+                developers {
+                    developer {
+                        id = 'agent-hanju'
+                        name = 'hanju'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/agent-hanju/hanju-auth.git'
+                    developerConnection = 'scm:git:ssh://github.com/agent-hanju/hanju-auth.git'
+                    url = 'https://github.com/agent-hanju/hanju-auth'
                 }
             }
         }
